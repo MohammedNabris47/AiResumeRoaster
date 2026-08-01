@@ -1,12 +1,15 @@
 const dotenv = require("dotenv")
+const fs = require("fs")
 const path = require("path")
 
-
-dotenv.config({ path: path.resolve(__dirname, "../../.env") })
+const envPath = path.resolve(__dirname, "../../.env")
+if (fs.existsSync(envPath)) {
+    dotenv.config({ path: envPath })
+}
 
 const required = ["MONGO_URI", "JWT_SECRET"]
 const missing = required.filter((key) => !process.env[key])
-if (missing.length) {
+if (missing.length && !process.env.VERCEL) {
     console.error(`Missing required env vars: ${missing.join(", ")}`)
     process.exit(1)
 }

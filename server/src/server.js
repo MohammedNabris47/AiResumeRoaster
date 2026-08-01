@@ -40,22 +40,14 @@ app.use("/api/history", historyRouter)
 app.use(notFound)
 app.use(errorHandler)
 
-async function start() {
-    try {
-        await connectDB()
-        app.listen(env.port, () => {
-            console.log(`Server listening on http://localhost:${env.port} (${env.nodeEnv})`)
-        })
-    } catch (error) {
-        console.error("Failed to start server: ", error.message)
-        process.exit(1)
-    }
-}
-
-process.on("unhandledRejection", (reason) => {
-    console.error("Unhandled rejection: ", reason)
+connectDB().catch(err => {
+    console.error("Failed to connect to database: ", err.message)
 })
 
-start()
+if (!process.env.VERCEL) {
+    app.listen(env.port, () => {
+        console.log(`Server listening on http://localhost:${env.port} (${env.nodeEnv})`)
+    })
+}
 
 module.exports = app

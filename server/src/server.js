@@ -37,6 +37,10 @@ app.use("/api/insights", insightsRouter)
 app.use("/api/versions", versionsRouter)
 app.use("/api/history", historyRouter)
 
+app.get("/", (req, res) => {
+    res.json({ message: "AI Resume Analyzer API is running!" })
+})
+
 app.use(notFound)
 app.use(errorHandler)
 

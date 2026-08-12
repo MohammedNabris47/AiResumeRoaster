@@ -20,7 +20,7 @@ const app = express()
 app.set("trust proxy", 1)
 app.use(
     cors({
-        origin: true,
+        origin: (origin, callback) => callback(null, true),
         credentials: true
     })
 )
@@ -29,15 +29,15 @@ app.use(express.urlencoded({ extended: true, limit: "1mb" }))
 app.use(cookieParser())
 if (!env.isProd) app.use(morgan("dev"))
 
-app.use("/api/health", healthRouter)
-app.use("/api/auth", authRouter)
-app.use("/api/resumes", resumeRouter)
-app.use("/api/dashboard", dashboardRouter)
-app.use("/api/insights", insightsRouter)
-app.use("/api/versions", versionsRouter)
-app.use("/api/history", historyRouter)
+app.use(["/api/health", "/health"], healthRouter)
+app.use(["/api/auth", "/auth"], authRouter)
+app.use(["/api/resumes", "/resumes"], resumeRouter)
+app.use(["/api/dashboard", "/dashboard"], dashboardRouter)
+app.use(["/api/insights", "/insights"], insightsRouter)
+app.use(["/api/versions", "/versions"], versionsRouter)
+app.use(["/api/history", "/history"], historyRouter)
 
-app.get("/", (req, res) => {
+app.get(["/", "/api"], (req, res) => {
     res.json({ message: "AI Resume Analyzer API is running!" })
 })
 

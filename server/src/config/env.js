@@ -21,7 +21,7 @@ module.exports = {
     jwtSecret: process.env.JWT_SECRET,
     jwtExpiresIn: process.env.JWT_EXPIRES_IN || "7d",
     cookieName: process.env.COOKIE_NAME || "arr_token",
-    clientOrigins: (process.env.CLIENT_ORIGIN || "http://localhost:5173,http://localhost:5174")
+    clientOrigins: (process.env.CLIENT_ORIGIN || "http://localhost:5173,http://localhost:5174,https://ai-resume-roaster-client-seven.vercel.app")
         .split(",")
         .map((o) => o.trim())
         .filter(Boolean),

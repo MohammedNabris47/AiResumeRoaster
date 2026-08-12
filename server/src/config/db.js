@@ -5,6 +5,11 @@ const env = require("./env")
 mongoose.set("strictQuery", true)
 
 async function connectDB() {
+    if (mongoose.connection.readyState >= 1) return;
+    if (!env.monoUri) {
+        console.error("MongoDB connection skipped: MONGO_URI is not set in environment variables.")
+        return;
+    }
     const conn = await mongoose.connect(env.monoUri, {
         serverSelectionTimeoutMS: 10_000
     })

@@ -10,10 +10,14 @@ async function connectDB() {
         console.error("MongoDB connection skipped: MONGO_URI is not set in environment variables.")
         return;
     }
-    const conn = await mongoose.connect(env.monoUri, {
-        serverSelectionTimeoutMS: 10_000
-    })
-    console.log(`MongoDB Connected: ${conn.connection.host}/${conn.connection.name}`)
+    try {
+        const conn = await mongoose.connect(env.monoUri, {
+            serverSelectionTimeoutMS: 5000
+        })
+        console.log(`MongoDB Connected: ${conn.connection.host}/${conn.connection.name}`)
+    } catch (err) {
+        console.error("MongoDB Connection Error: ", err.message)
+    }
 
     mongoose.connection.on("error", (err) => {
         console.error("MongoDB Error: ", err.message)

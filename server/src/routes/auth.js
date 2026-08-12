@@ -92,7 +92,7 @@ router.patch(
     asyncHandler(async (req, res) => {
         req.user.name = req.body.name
         await req.user.save()
-        req.json({ user: req.user })
+        res.json({ user: req.user })
     })
 )
 
@@ -109,7 +109,7 @@ router.patch(
         const ok = await user.comparePassword(req.body.currentPassword)
         if (!ok) throw ApiError.unauthorized("Currrent password is incorrect")
 
-        user.passwordHash - await User.hashPassword(req.body.newPassword)
+        user.passwordHash = await User.hashPassword(req.body.newPassword)
         await user.save()
         res.json({ ok: true })
     })

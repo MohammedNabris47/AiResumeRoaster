@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const apiClient = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || "/api",
+    baseURL: import.meta.env.VITE_API_URL || "https://ai-resume-roaster-server.vercel.app/api",
     withCredentials: true,
     headers: { "Content-Type": "application/json" }
 })

@@ -9,10 +9,12 @@ function verifyToken(token) {
     return jwt.verify(token, env.jwtSecret)
 }
 
+const isVercelOrProd = env.isProd || Boolean(process.env.VERCEL)
+
 const cookieOptions = {
     httpOnly: true,
-    secure: env.isProd || Boolean(process.env.VERCEL),
-    sameSite: "lax",
+    secure: isVercelOrProd,
+    sameSite: isVercelOrProd ? "none" : "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000,
     path: "/"
 }
